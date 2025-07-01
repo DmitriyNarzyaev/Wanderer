@@ -3,6 +3,7 @@ import Container = PIXI.Container;
 
 export default class Player extends Container {
     public playerSpeed:number = 2.5;
+    public playerDiagSpeed:number = 1.75;
     private _playerSize:number = 20;
     private _eyeSize:number = 4;
 
