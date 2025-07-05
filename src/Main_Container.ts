@@ -1,9 +1,10 @@
-import { Graphics, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import Container = PIXI.Container;
 import Player from "./Player";
 import Global from "./Global";
 import Wall from "./Wall";
 import Collision_Checking from "./Collision_Checking";
+import Start_Menu from "./Start_Menu";
 
 export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
@@ -12,7 +13,8 @@ export default class Main_Container extends Container {
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
 	private BUTTON_DOWN:boolean = false;
-	public _background: PIXI.Sprite
+	private _startMenu:Start_Menu;
+	private _background:PIXI.Graphics;
 	private _player:Player;
 	private _wall:Wall
 
@@ -27,12 +29,18 @@ export default class Main_Container extends Container {
 			.add("title", "title.jpg")
 			.add("car", "car.png")
 			.add("wall", "wall.png")
-		loader.load((loader, resources)=> {
-			this.startProject();
+			loader.load((loader, resources)=> {
+			this.initialStartMenu();
 		});
 	}
 
+	private initialStartMenu():void {
+		this._startMenu = new Start_Menu("START", () => {this.startProject();});
+		this.addChild(this._startMenu);
+	}
+
 	private startProject():void {
+		this.removeChild(this._startMenu);
 		this.initialBackground();
 		this.initialWalls();
 		this.initialPlayer();
@@ -49,8 +57,11 @@ export default class Main_Container extends Container {
 	}
 
 	private initialBackground():void {
-		this._background = Sprite.from("title");
-		this.addChild(this._background);
+		this._background = new PIXI.Graphics;
+		this._background
+            .beginFill(0x084408)
+            .drawRect(0, 0, Main_Container.WIDTH, Main_Container.HEIGHT);
+        this.addChild(this._background);
 	}
 
 	private initialWalls():void {
