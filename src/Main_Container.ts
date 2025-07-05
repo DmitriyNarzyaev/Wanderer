@@ -1,4 +1,4 @@
-import { Graphics } from "pixi.js";
+import { Graphics, Sprite } from "pixi.js";
 import Container = PIXI.Container;
 import Player from "./Player";
 import Global from "./Global";
@@ -6,13 +6,13 @@ import Wall from "./Wall";
 import Collision_Checking from "./Collision_Checking";
 
 export default class Main_Container extends Container {
-	public static readonly WIDTH:number = 1920;
-	public static readonly HEIGHT:number = 1080;
+	public static readonly WIDTH:number = 1280;
+	public static readonly HEIGHT:number = 800;
 	private BUTTON_LEFT:boolean = false;
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
 	private BUTTON_DOWN:boolean = false;
-	private _background: Graphics;
+	public _background: PIXI.Sprite
 	private _player:Player;
 	private _wall:Wall
 
@@ -24,6 +24,7 @@ export default class Main_Container extends Container {
 	private pictureLoader():void {
 		const loader:PIXI.Loader = new PIXI.Loader();
 		loader
+			.add("title", "title.jpg")
 			.add("car", "car.png")
 			.add("wall", "wall.png")
 		loader.load((loader, resources)=> {
@@ -33,8 +34,8 @@ export default class Main_Container extends Container {
 
 	private startProject():void {
 		this.initialBackground();
-		this.initialPlayer();
 		this.initialWalls();
+		this.initialPlayer();
 
 		window.addEventListener("keydown",
 			(e:KeyboardEvent) => {this._player
@@ -48,9 +49,7 @@ export default class Main_Container extends Container {
 	}
 
 	private initialBackground():void {
-		this._background = new Graphics;
-		this._background.beginFill(0x00ff48);
-		this._background.drawRect(0, 0, Main_Container.WIDTH, Main_Container.HEIGHT);
+		this._background = Sprite.from("title");
 		this.addChild(this._background);
 	}
 

@@ -3,7 +3,6 @@ import Container = PIXI.Container;
 
 export default class Wall extends Container {
     public wall: PIXI.Sprite
-    private _wallSize:number = 40;
 
     constructor() {
         super();
