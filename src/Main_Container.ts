@@ -5,18 +5,22 @@ import Global from "./Global";
 import Wall from "./Wall";
 import Collision_Checking from "./Collision_Checking";
 import Start_Menu from "./Start_Menu";
+import Button from "./Button";
 
 export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
 	public static readonly HEIGHT:number = 800;
+	public static wallArray:Sprite[] = [];
 	private BUTTON_LEFT:boolean = false;
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
 	private BUTTON_DOWN:boolean = false;
 	private _startMenu:Start_Menu;
+	private _button:Button;
 	private _background:PIXI.Graphics;
 	private _player:Player;
 	private _wall:Wall
+	public static jsonLoader:XMLHttpRequest;
 
 	constructor() {
 		super();
@@ -24,23 +28,40 @@ export default class Main_Container extends Container {
 	}
 
 	private pictureLoader():void {
-		const loader:PIXI.Loader = new PIXI.Loader();
-		loader
+		const picLoader:PIXI.Loader = new PIXI.Loader();
+		picLoader
 			.add("title", "title.jpg")
 			.add("car", "car.png")
 			.add("wall", "wall.png")
-			loader.load((loader, resources)=> {
-			this.initialStartMenu();
+			picLoader.load((loader, resources)=> {
+			this.jsonLiader();
 		});
 	}
 
+	private jsonLiader():void {
+		Main_Container.jsonLoader = new XMLHttpRequest();
+		Main_Container.jsonLoader.responseType = "json";
+		Main_Container.jsonLoader.open("GET", "level1.json", true);
+		Main_Container.jsonLoader.onreadystatechange = () => {
+		this.initialStartMenu();
+		};
+		Main_Container.jsonLoader.send();
+	}
+
 	private initialStartMenu():void {
-		this._startMenu = new Start_Menu("START", () => {this.startProject();});
+		this._startMenu = new Start_Menu();
+		this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
 		this.addChild(this._startMenu);
+
+		this._button = new Button("START", () => {this.startProject();});
+		this._button.x = Main_Container.WIDTH/2 - this._button.width/2;
+        this._button.y = Main_Container.HEIGHT/3.5;
+		this.addChild(this._button);
 	}
 
 	private startProject():void {
 		this.removeChild(this._startMenu);
+		this.removeChild(this._button);
 		this.initialBackground();
 		this.initialWalls();
 		this.initialPlayer();
@@ -65,9 +86,7 @@ export default class Main_Container extends Container {
 	}
 
 	private initialWalls():void {
-		this._wall = new Wall;
-		this._wall.x = 500;
-		this._wall.y = 500;
+		this._wall = new Wall(Main_Container.jsonLoader.response);
 		this.addChild(this._wall);
 	}
 
