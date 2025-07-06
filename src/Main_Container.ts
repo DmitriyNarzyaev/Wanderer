@@ -131,7 +131,6 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
-		let canMove:boolean = true;
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
 			this._player.x -= this._player.playerSpeed;
 			this._player.rotation = Math.PI*1.5;
@@ -167,15 +166,17 @@ export default class Main_Container extends Container {
 			this._player.y += this._player.playerDiagSpeed;
 		}
 
-		if (
-			Collision_Checking.horizontal(this._player, this._wall) &&
-			Collision_Checking.vertical(this._player, this._wall)
-		){
-			// this._player.playerSpeed = 0;
-			// this._player.playerDiagSpeed = 0;
-			this._wall.wall.tint = 0xff0000;
-		} else {
-			this._wall.wall.tint = 0xffffff;
-		}
+		Main_Container.wallArray.forEach(wall => {
+			if (
+			Collision_Checking.horizontal(this._player, wall) &&
+			Collision_Checking.vertical(this._player, wall))
+			{
+			wall.tint = 0xff0000;
+			} else {
+			wall.tint = 0xffffff;
+			}
+		});
+
+		
 	}
 }
