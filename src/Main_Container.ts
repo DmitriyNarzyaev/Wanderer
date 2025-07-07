@@ -131,8 +131,8 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
-
 		let limitX:number;
+		let limitY:number;
 		let canMove:boolean = true;
 
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
@@ -153,13 +153,27 @@ export default class Main_Container extends Container {
 				this._player.x -= this._player.playerSpeed;
 			}
 		}else if (this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
-			this._player.y -= this._player.playerSpeed;
 			this._player.rotation = 0;
+			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+				let wall: Sprite = Main_Container.wallArray[iterator];
+				limitY = wall.y + wall.height + this._player.height/2;
+				if (
+					this._player.y >= limitY &&
+					this._player.y - this._player.playerSpeed < limitY &&
+					Collision_Checking.horizontal(this._player, wall)
+				) {
+					this._player.y = limitY;
+					canMove = false;
+				}
+			};
+			if (canMove) {
+				this._player.y -= this._player.playerSpeed;
+			}
 		}else if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
 			this._player.rotation = Math.PI/2;
 			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
 				let wall: Sprite = Main_Container.wallArray[iterator];
-				limitX = wall.x - this._player.width * 1.5;
+				limitX = wall.x - this._player.width / 2;
 				if (
 					this._player.x <= limitX &&
 					this._player.x + this._player.playerSpeed > limitX &&
@@ -173,8 +187,22 @@ export default class Main_Container extends Container {
 				this._player.x += this._player.playerSpeed;
 			}
 		}else if (this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
-			this._player.y += this._player.playerSpeed;
 			this._player.rotation = Math.PI;
+			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+				let wall: Sprite = Main_Container.wallArray[iterator];
+				limitY = wall.y - this._player.height / 2;
+				if (
+					this._player.y <= limitY &&
+					this._player.y + this._player.playerSpeed > limitY &&
+					Collision_Checking.horizontal(this._player, wall)
+				) {
+					this._player.y = limitY;
+					canMove = false;
+				}
+			};
+			if (canMove) {
+				this._player.y += this._player.playerSpeed;
+			}
 		}
 
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
