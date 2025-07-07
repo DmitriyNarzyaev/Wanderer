@@ -12,8 +12,8 @@ export default class Collision_Checking {
 		const obj2BottomRightGlobal:IPoint = obj2.parent.toGlobal(new Point(obj2.x + obj2.width, obj2.y + obj2.height));
 
 		return !(
-			obj1BottomRightGlobal.x <= obj2TopLeftGlobal.x + 20 ||
-			obj1TopLeftGlobal.x - 20 >= obj2BottomRightGlobal.x
+			obj1BottomRightGlobal.x <= obj2TopLeftGlobal.x ||
+			obj1TopLeftGlobal.x >= obj2BottomRightGlobal.x
 		);
 	}
 
@@ -28,8 +28,8 @@ export default class Collision_Checking {
 		const obj2BottomRightGlobal:IPoint = obj2.parent.toGlobal(new Point(obj2.x + obj2.width, obj2.y + obj2.height));
 
 		return !(
-			obj1BottomRightGlobal.y <= obj2TopLeftGlobal.y + 20 ||
-			obj1TopLeftGlobal.y - 20 >= obj2BottomRightGlobal.y
+			obj1BottomRightGlobal.y <= obj2TopLeftGlobal.y ||
+			obj1TopLeftGlobal.y >= obj2BottomRightGlobal.y
 		);
 	}
 }

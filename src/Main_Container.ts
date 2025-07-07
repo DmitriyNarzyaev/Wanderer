@@ -1,11 +1,11 @@
-import { Sprite } from "pixi.js";
 import Container = PIXI.Container;
 import Player from "./Player";
 import Global from "./Global";
-import Wall from "./Wall";
 import Collision_Checking from "./Collision_Checking";
 import Start_Menu from "./Start_Menu";
 import Button from "./Button";
+import Wall from "./Wall";
+import { Sprite } from "pixi.js";
 
 export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
@@ -131,15 +131,47 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
+
+		let limitX:number;
+		let canMove:boolean = true;
+
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
-			this._player.x -= this._player.playerSpeed;
 			this._player.rotation = Math.PI*1.5;
+			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+				let wall: Sprite = Main_Container.wallArray[iterator];
+				limitX = wall.x + wall.width + this._player.width/2;
+				if (
+					this._player.x >= limitX &&
+					this._player.x - this._player.playerSpeed < limitX &&
+					Collision_Checking.vertical(this._player, wall)
+				) {
+					this._player.x = limitX;
+					canMove = false;
+				}
+			};
+			if (canMove) {
+				this._player.x -= this._player.playerSpeed;
+			}
 		}else if (this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
 			this._player.y -= this._player.playerSpeed;
 			this._player.rotation = 0;
 		}else if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
-			this._player.x += this._player.playerSpeed;
 			this._player.rotation = Math.PI/2;
+			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+				let wall: Sprite = Main_Container.wallArray[iterator];
+				limitX = wall.x - this._player.width * 1.5;
+				if (
+					this._player.x <= limitX &&
+					this._player.x + this._player.playerSpeed > limitX &&
+					Collision_Checking.vertical(this._player, wall)
+				) {
+					this._player.x = limitX;
+					canMove = false;
+				}
+			};
+			if (canMove) {
+				this._player.x += this._player.playerSpeed;
+			}
 		}else if (this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
 			this._player.y += this._player.playerSpeed;
 			this._player.rotation = Math.PI;
@@ -165,18 +197,5 @@ export default class Main_Container extends Container {
 			this._player.x += this._player.playerDiagSpeed;
 			this._player.y += this._player.playerDiagSpeed;
 		}
-
-		Main_Container.wallArray.forEach(wall => {
-			if (
-			Collision_Checking.horizontal(this._player, wall) &&
-			Collision_Checking.vertical(this._player, wall))
-			{
-			wall.tint = 0xff0000;
-			} else {
-			wall.tint = 0xffffff;
-			}
-		});
-
-		
 	}
 }
