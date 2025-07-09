@@ -205,25 +205,25 @@ export default class Main_Container extends Container {
 			}
 		}
 
-		if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
-			this._player.rotation = (Math.PI*7)/4;
-			this._player.x -= this._player.playerDiagSpeed;
-			this._player.y -= this._player.playerDiagSpeed;
-		}
-		if (this.BUTTON_UP == true && this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
-			this._player.rotation = Math.PI/4;
-			this._player.x += this._player.playerDiagSpeed;
-			this._player.y -= this._player.playerDiagSpeed;
-		}
-		if (this.BUTTON_DOWN == true == true && this.BUTTON_LEFT && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
-			this._player.rotation = (Math.PI*5)/4;
-			this._player.x -= this._player.playerDiagSpeed;
-			this._player.y += this._player.playerDiagSpeed;
-		}
-		if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
-			this._player.rotation = (Math.PI*3)/4;
-			this._player.x += this._player.playerDiagSpeed;
-			this._player.y += this._player.playerDiagSpeed;
-		}
+		// if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
+		// 	this._player.rotation = (Math.PI*7)/4;
+		// 	this._player.x -= this._player.playerDiagSpeed;
+		// 	this._player.y -= this._player.playerDiagSpeed;
+		// }
+		// if (this.BUTTON_UP == true && this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
+		// 	this._player.rotation = Math.PI/4;
+		// 	this._player.x += this._player.playerDiagSpeed;
+		// 	this._player.y -= this._player.playerDiagSpeed;
+		// }
+		// if (this.BUTTON_DOWN == true == true && this.BUTTON_LEFT && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
+		// 	this._player.rotation = (Math.PI*5)/4;
+		// 	this._player.x -= this._player.playerDiagSpeed;
+		// 	this._player.y += this._player.playerDiagSpeed;
+		// }
+		// if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
+		// 	this._player.rotation = (Math.PI*3)/4;
+		// 	this._player.x += this._player.playerDiagSpeed;
+		// 	this._player.y += this._player.playerDiagSpeed;
+		// }
 	}
 }
