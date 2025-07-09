@@ -9,7 +9,6 @@ export default class Player extends Container {
     constructor() {
         super();
         this.initialPlayer();
-        //this.testBG();
     }
 
     private initialPlayer():void {
@@ -18,16 +17,4 @@ export default class Player extends Container {
         this.playerCar.y -= this.playerCar.height/2;
         this.addChild(this.playerCar);
     }
-
-    // private testBG():void {
-    //     let bg:PIXI.Graphics = new PIXI.Graphics
-    //     bg
-    //         .beginFill(0x550055)
-    //         .drawRect(0, 0, this.playerCar.width, this.playerCar.height);
-
-    //         bg.x -= this.playerCar.width/2;
-    //         bg.y -= this.playerCar.height/2;
-    //     this.addChildAt(bg, 0);
-
-    // }
 }
