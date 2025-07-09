@@ -91,9 +91,11 @@ export default class Main_Container extends Container {
 	}
 
 	private initialPlayer():void {
+		let startPositionX:number = 120;
+		let startPositionY:number = 700;
 		this._player = new Player;
-		this._player.x = Main_Container.WIDTH/2 - this._player.width/2;
-		this._player.y = Main_Container.HEIGHT/2 - this._player.height/2;
+		this._player.x = startPositionX;
+		this._player.y = startPositionY;
 		this._player.interactive = true;
 		this.addChild(this._player);
 	}
