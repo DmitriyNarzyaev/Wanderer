@@ -7,6 +7,7 @@ import Button from "./Button";
 import Wall from "./Wall";
 import { Sprite } from "pixi.js";
 import Exit_Key from "./Exit_Key";
+import Exit_Gate from "./Exit_Gate";
 
 export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
@@ -34,7 +35,8 @@ export default class Main_Container extends Container {
 			.add("title", "title.jpg")
 			.add("car", "car.png")
 			.add("wall", "wall.png")
-			.add("exitkey", "key.png");
+			.add("exitkey", "key.png")
+			.add("exitgate", "exit.png");
 			picLoader.load((loader, resources)=> {
 			this.jsonLiader();
 		});
@@ -67,6 +69,7 @@ export default class Main_Container extends Container {
 		this.initialBackground();
 		this.initialWalls();
 		this.initialExitKey();
+		this.initialExitGate();
 		this.initialPlayer();
 
 		window.addEventListener("keydown",
@@ -95,6 +98,13 @@ export default class Main_Container extends Container {
 	
 	private initialExitKey():void {
 		let exitKey:Exit_Key = new Exit_Key;
+		this.addChild(exitKey);
+	}
+
+	private initialExitGate():void {
+		let exitKey:Exit_Gate = new Exit_Gate;
+		exitKey.x = 1100;
+		exitKey.y = 570;
 		this.addChild(exitKey);
 	}
 
