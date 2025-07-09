@@ -21,6 +21,7 @@ export default class Main_Container extends Container {
 	private _button:Button;
 	private _background:PIXI.Graphics;
 	private _player:Player;
+	private _exitGate:Exit_Gate;
 	private _wall:Wall
 	public static jsonLoader:XMLHttpRequest;
 
@@ -36,7 +37,8 @@ export default class Main_Container extends Container {
 			.add("car", "car.png")
 			.add("wall", "wall.png")
 			.add("exitkey", "key.png")
-			.add("exitgate", "exit.png");
+			.add("exitgate", "exit.png")
+			.add("vortex", "vortex.png");
 			picLoader.load((loader, resources)=> {
 			this.jsonLiader();
 		});
@@ -102,10 +104,10 @@ export default class Main_Container extends Container {
 	}
 
 	private initialExitGate():void {
-		let exitKey:Exit_Gate = new Exit_Gate;
-		exitKey.x = 1100;
-		exitKey.y = 570;
-		this.addChild(exitKey);
+		this._exitGate = new Exit_Gate;
+		this._exitGate.x = 1100;
+		this._exitGate.y = 570;
+		this.addChild(this._exitGate);
 	}
 
 	private initialPlayer():void {
@@ -224,6 +226,10 @@ export default class Main_Container extends Container {
 				this._player.y += this._player.playerSpeed;
 			}
 		}
+
+		let gateRotationIterator:number = 0;
+		gateRotationIterator += 1;
+		this._exitGate.vortexContainer.rotation -= gateRotationIterator/20;
 
 		// if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
 		// 	this._player.rotation = (Math.PI*7)/4;
