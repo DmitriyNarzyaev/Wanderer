@@ -34,7 +34,7 @@ export default class Main_Container extends Container {
 		const picLoader:PIXI.Loader = new PIXI.Loader();
 		picLoader
 			.add("title", "title.jpg")
-			.add("car", "car.png")
+			.add("car", "gamer.png")
 			.add("wall", "wall.png")
 			.add("exitkey", "key.png")
 			.add("exitgate", "exit.png")
