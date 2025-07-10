@@ -34,11 +34,11 @@ export default class Main_Container extends Container {
 		const picLoader:PIXI.Loader = new PIXI.Loader();
 		picLoader
 			.add("title", "title.jpg")
-			.add("car", "gamer.png")
 			.add("wall", "wall.png")
 			.add("exitkey", "key.png")
 			.add("exitgate", "exit.png")
-			.add("vortex", "vortex.png");
+			.add("vortex", "vortex.png")
+			.add("car", "gamer.png")
 			picLoader.load((loader, resources)=> {
 			this.jsonLiader();
 		});
@@ -75,7 +75,7 @@ export default class Main_Container extends Container {
 		this.initialPlayer();
 
 		window.addEventListener("keydown",
-			(e:KeyboardEvent) => {this._player
+			(e:KeyboardEvent) => {
 			this.keyDownHandler(e);
 		},);
 		window.addEventListener("keyup",
@@ -116,7 +116,6 @@ export default class Main_Container extends Container {
 		this._player = new Player;
 		this._player.x = startPositionX;
 		this._player.y = startPositionY;
-		this._player.interactive = true;
 		this.addChild(this._player);
 	}
 
@@ -153,103 +152,159 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
-		let limitX:number;
-		let limitY:number;
-		let canMove:boolean = true;
+		// let limitX:number;
+		// let limitY:number;
+		// let canMove:boolean = true;
 
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
 			this._player.rotation = Math.PI*1.5;
-			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
-				let wall: Sprite = Main_Container.wallArray[iterator];
-				limitX = wall.x + wall.width + this._player.width/2;
-				if (
-					this._player.x >= limitX &&
-					this._player.x - this._player.playerSpeed < limitX &&
-					Collision_Checking.vertical(this._player, wall)
-				) {
-					this._player.x = limitX;
-					canMove = false;
-				}
-			};
-			if (canMove) {
-				this._player.x -= this._player.playerSpeed;
-			}
+			this.leftMove(false);
 		}else if (this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
 			this._player.rotation = 0;
-			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
-				let wall: Sprite = Main_Container.wallArray[iterator];
-				limitY = wall.y + wall.height + this._player.height/2;
-				if (
-					this._player.y >= limitY &&
-					this._player.y - this._player.playerSpeed < limitY &&
-					Collision_Checking.horizontal(this._player, wall)
-				) {
-					this._player.y = limitY;
-					canMove = false;
-				}
-			};
-			if (canMove) {
-				this._player.y -= this._player.playerSpeed;
-			}
+			this.upMove(false);
 		}else if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
 			this._player.rotation = Math.PI/2;
-			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
-				let wall: Sprite = Main_Container.wallArray[iterator];
-				limitX = wall.x - this._player.width / 2;
-				if (
-					this._player.x <= limitX &&
-					this._player.x + this._player.playerSpeed > limitX &&
-					Collision_Checking.vertical(this._player, wall)
-				) {
-					this._player.x = limitX;
-					canMove = false;
-				}
-			};
-			if (canMove) {
-				this._player.x += this._player.playerSpeed;
-			}
+			this.rightMove(false);
 		}else if (this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
 			this._player.rotation = Math.PI;
-			for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
-				let wall: Sprite = Main_Container.wallArray[iterator];
-				limitY = wall.y - this._player.height / 2;
-				if (
-					this._player.y <= limitY &&
-					this._player.y + this._player.playerSpeed > limitY &&
-					Collision_Checking.horizontal(this._player, wall)
-				) {
-					this._player.y = limitY;
-					canMove = false;
-				}
-			};
-			if (canMove) {
-				this._player.y += this._player.playerSpeed;
-			}
+			this.downMove(false);
+		}
+
+		if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
+			this._player.rotation = (Math.PI*7)/4;
+			this.upMove(true);
+			this.leftMove(true);
+		}
+		if (this.BUTTON_UP == true && this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
+			this._player.rotation = Math.PI/4;
+			this.upMove(true);
+			this.rightMove(true);
+		}
+		if (this.BUTTON_DOWN == true && this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
+			this._player.rotation = (Math.PI*5)/4;
+			this.downMove(true);
+			this.leftMove(true);
+		}
+		if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
+			this._player.rotation = (Math.PI*3)/4;
+			this.downMove(true);
+			this.rightMove(true);
 		}
 
 		let gateRotationIterator:number = 0;
 		gateRotationIterator += 1;
 		this._exitGate.vortexContainer.rotation -= gateRotationIterator/20;
+	}
 
-		// if (this.BUTTON_LEFT == true && this.BUTTON_UP == true && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
-		// 	this._player.rotation = (Math.PI*7)/4;
-		// 	this._player.x -= this._player.playerDiagSpeed;
-		// 	this._player.y -= this._player.playerDiagSpeed;
-		// }
-		// if (this.BUTTON_UP == true && this.BUTTON_RIGHT == true && this.BUTTON_DOWN == false && this.BUTTON_LEFT == false) {
-		// 	this._player.rotation = Math.PI/4;
-		// 	this._player.x += this._player.playerDiagSpeed;
-		// 	this._player.y -= this._player.playerDiagSpeed;
-		// }
-		// if (this.BUTTON_DOWN == true == true && this.BUTTON_LEFT && this.BUTTON_UP == false && this.BUTTON_RIGHT == false) {
-		// 	this._player.rotation = (Math.PI*5)/4;
-		// 	this._player.x -= this._player.playerDiagSpeed;
-		// 	this._player.y += this._player.playerDiagSpeed;
-		// }
-		// if (this.BUTTON_RIGHT == true && this.BUTTON_DOWN == true && this.BUTTON_LEFT == false && this.BUTTON_UP == false) {
-		// 	this._player.rotation = (Math.PI*3)/4;
-		// 	this._player.x += this._player.playerDiagSpeed;
-		// 	this._player.y += this._player.playerDiagSpeed;
-		// }
+	private leftMove(diag:boolean):void{
+		let speed:number;
+		let limitX:number;
+		let canMove:boolean = true;
+
+		if (diag) {
+			speed = this._player.playerDiagSpeed
+		} else {
+			speed = this._player.playerSpeed
+		}
+
+		for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+			let wall: Sprite = Main_Container.wallArray[iterator];
+			limitX = wall.x + wall.width + this._player.width/2;
+			if (
+				this._player.x >= limitX &&
+				this._player.x - speed < limitX &&
+				Collision_Checking.vertical(this._player, wall)
+			) {
+				this._player.x = limitX;
+				canMove = false;
+			}
+		};
+		if (canMove) {
+			this._player.x -= speed;
+		}
+	}
+
+	private upMove(diag:boolean):void{
+		let speed:number;
+		let limitY:number;
+		let canMove:boolean = true;
+
+		if (diag) {
+			speed = this._player.playerDiagSpeed
+		} else {
+			speed = this._player.playerSpeed
+		}
+
+		for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+			let wall: Sprite = Main_Container.wallArray[iterator];
+			limitY = wall.y + wall.height + this._player.height/2;
+			if (
+				this._player.y >= limitY &&
+				this._player.y - speed < limitY &&
+				Collision_Checking.horizontal(this._player, wall)
+			) {
+				this._player.y = limitY;
+				canMove = false;
+			}
+		};
+		if (canMove) {
+			this._player.y -= speed;
+		}
+	}
+
+	private rightMove(diag:boolean):void{
+		let speed:number;
+		let limitX:number;
+		let canMove:boolean = true;
+
+		if (diag) {
+			speed = this._player.playerDiagSpeed
+		} else {
+			speed = this._player.playerSpeed
+		}
+
+		for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+			let wall: Sprite = Main_Container.wallArray[iterator];
+			limitX = wall.x - this._player.width / 2;
+			if (
+				this._player.x <= limitX &&
+				this._player.x + speed > limitX &&
+				Collision_Checking.vertical(this._player, wall)
+			) {
+				this._player.x = limitX;
+				canMove = false;
+			}
+		};
+		if (canMove) {
+			this._player.x += speed;
+		}
+	}
+
+	private downMove(diag:boolean):void{
+		let speed:number;
+		let limitY:number;
+		let canMove:boolean = true;
+
+		if (diag) {
+			speed = this._player.playerDiagSpeed
+		} else {
+			speed = this._player.playerSpeed
+		}
+
+		for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
+			let wall: Sprite = Main_Container.wallArray[iterator];
+			limitY = wall.y - this._player.height / 2;
+			if (
+				this._player.y <= limitY &&
+				this._player.y + speed > limitY &&
+				Collision_Checking.horizontal(this._player, wall)
+			) {
+				this._player.y = limitY;
+				canMove = false;
+			}
+		};
+		if (canMove) {
+			this._player.y += speed;
+		}
 	}
 }
