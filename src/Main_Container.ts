@@ -8,6 +8,7 @@ import Wall from "./Wall";
 import { Sprite } from "pixi.js";
 import Exit_Key from "./Exit_Key";
 import Exit_Gate from "./Exit_Gate";
+import Score_Menu from "./Score_Menu";
 
 export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
@@ -24,6 +25,7 @@ export default class Main_Container extends Container {
 	private _player:Player;
 	private _exitGate:Exit_Gate;
 	private _wall:Wall
+	private _scoreMenu:Score_Menu;
 	public static jsonLoader:XMLHttpRequest;
 
 	constructor() {
@@ -75,6 +77,7 @@ export default class Main_Container extends Container {
 		this.initialExitKey();
 		this.initialExitGate();
 		this.initialPlayer();
+		this.initialScoreMenu();
 
 		window.addEventListener("keydown",
 			(e:KeyboardEvent) => {
@@ -119,6 +122,13 @@ export default class Main_Container extends Container {
 		this._player.x = startPositionX;
 		this._player.y = startPositionY;
 		this.addChild(this._player);
+	}
+
+	private initialScoreMenu():void {
+		this._scoreMenu = new Score_Menu;
+		this._scoreMenu.x = Main_Container.WIDTH - this._scoreMenu.width -45;
+		this._scoreMenu.y = 45;
+		this.addChild(this._scoreMenu);
 	}
 
 	private keyDownHandler(e:KeyboardEvent):void {
