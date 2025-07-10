@@ -2,7 +2,7 @@ import { Sprite } from "pixi.js";
 import Container = PIXI.Container;
 
 export default class Start_Menu extends Container {
-    private _background: PIXI.Sprite;
+    public _background: PIXI.Sprite;
 
     constructor() {
         super();

@@ -17,6 +17,7 @@ export default class Main_Container extends Container {
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
 	private BUTTON_DOWN:boolean = false;
+	private _startMenuContainer:Container;
 	private _startMenu:Start_Menu;
 	private _button:Button;
 	private _background:PIXI.Graphics;
@@ -27,6 +28,8 @@ export default class Main_Container extends Container {
 
 	constructor() {
 		super();
+		this._startMenuContainer = new Container;
+		this.addChild(this._startMenuContainer);
 		this.pictureLoader();
 	}
 
@@ -57,17 +60,16 @@ export default class Main_Container extends Container {
 	private initialStartMenu():void {
 		this._startMenu = new Start_Menu();
 		this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
-		this.addChild(this._startMenu);
+		this._startMenuContainer.addChild(this._startMenu);
 
 		this._button = new Button("START", () => {this.startProject();});
 		this._button.x = Main_Container.WIDTH/2 - this._button.width/2;
         this._button.y = Main_Container.HEIGHT/3.5;
-		this.addChild(this._button);
+		this._startMenuContainer.addChild(this._button);
 	}
 
 	private startProject():void {
-		this.removeChild(this._startMenu);
-		this.removeChild(this._button);
+		this.removeChild(this._startMenuContainer);
 		this.initialBackground();
 		this.initialWalls();
 		this.initialExitKey();
@@ -152,10 +154,6 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
-		// let limitX:number;
-		// let limitY:number;
-		// let canMove:boolean = true;
-
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
 			this._player.rotation = Math.PI*1.5;
 			this.leftMove(false);
