@@ -14,6 +14,7 @@ export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
 	public static readonly HEIGHT:number = 800;
 	public static wallArray:Sprite[] = [];
+	private _exitKey:Exit_Key;
 	private BUTTON_LEFT:boolean = false;
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
@@ -93,7 +94,7 @@ export default class Main_Container extends Container {
 	private initialBackground():void {
 		this._background = new PIXI.Graphics;
 		this._background
-            .beginFill(0x084408)
+            .beginFill(0x384428)
             .drawRect(0, 0, Main_Container.WIDTH, Main_Container.HEIGHT);
         this.addChild(this._background);
 	}
@@ -104,8 +105,10 @@ export default class Main_Container extends Container {
 	}
 	
 	private initialExitKey():void {
-		let exitKey:Exit_Key = new Exit_Key;
-		this.addChild(exitKey);
+		this._exitKey = new Exit_Key;
+		this._exitKey.x = 45;
+		this._exitKey.y = 485;
+		this.addChild(this._exitKey);
 	}
 
 	private initialExitGate():void {
@@ -164,6 +167,8 @@ export default class Main_Container extends Container {
     }
 
 	private ticker():void {
+		this.keyCollision();
+
 		if (this.BUTTON_LEFT == true && this.BUTTON_UP == false && this.BUTTON_RIGHT == false && this.BUTTON_DOWN == false) {
 			this._player.rotation = Math.PI*1.5;
 			this.leftMove(false);
@@ -202,6 +207,19 @@ export default class Main_Container extends Container {
 		let gateRotationIterator:number = 0;
 		gateRotationIterator += 1;
 		this._exitGate.vortexContainer.rotation -= gateRotationIterator/20;
+	}
+
+	private keyCollision():void {
+		let keyIterator:number = 0;
+		if (
+			Collision_Checking.horizontal(this._player, this._exitKey) &&
+			Collision_Checking.vertical(this._player, this._exitKey)
+		) {
+			keyIterator+=1;
+			console.log(keyIterator);
+			this.removeChild(this._exitKey);
+			//this._keyArray.
+		}
 	}
 
 	private leftMove(diag:boolean):void{
@@ -300,7 +318,7 @@ export default class Main_Container extends Container {
 		}
 
 		for (let iterator:number = 0; iterator < Main_Container.wallArray.length; iterator ++) {
-			let wall: Sprite = Main_Container.wallArray[iterator];
+			let wall:Sprite = Main_Container.wallArray[iterator];
 			limitY = wall.y - this._player.height / 2;
 			if (
 				this._player.y <= limitY &&

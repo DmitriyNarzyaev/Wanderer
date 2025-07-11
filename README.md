@@ -1,4 +1,4 @@
-# Invaders game
+# Wanderer game
 You can start this game by clicking on the link https://dmitriynarzyaev.github.io/Wanderer/
 
 ## Deployment
