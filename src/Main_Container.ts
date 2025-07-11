@@ -78,7 +78,7 @@ export default class Main_Container extends Container {
 		this.initialExitKey();
 		this.initialExitGate();
 		this.initialPlayer();
-		this.initialScoreMenu();
+		this.initialScoreMenu("0");
 
 		window.addEventListener("keydown",
 			(e:KeyboardEvent) => {
@@ -127,8 +127,8 @@ export default class Main_Container extends Container {
 		this.addChild(this._player);
 	}
 
-	private initialScoreMenu():void {
-		this._scoreMenu = new Score_Menu;
+	private initialScoreMenu(score:string):void {
+		this._scoreMenu = new Score_Menu(score);
 		this._scoreMenu.x = Main_Container.WIDTH - this._scoreMenu.width -45;
 		this._scoreMenu.y = 45;
 		this.addChild(this._scoreMenu);
@@ -218,7 +218,8 @@ export default class Main_Container extends Container {
 			keyIterator+=1;
 			console.log(keyIterator);
 			this.removeChild(this._exitKey);
-			//this._keyArray.
+			this.removeChild(this._scoreMenu);
+			this.initialScoreMenu(keyIterator as unknown as string);
 		}
 	}
 

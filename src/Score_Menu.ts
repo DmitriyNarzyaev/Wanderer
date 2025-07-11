@@ -4,12 +4,11 @@ import Container = PIXI.Container;
 export default class Score_Menu extends Container {
     private _scoreMenuWidth:number = 80;
     private _scoreMenuHeight:number = 20;
-    public SCORE:string = "0";
 
-    constructor() {
+    constructor(score:string) {
         super();
         this.initialBackground();
-        this.textForScoreMenu(this.SCORE);
+        this.textForScoreMenu(score);
     }
 
     private initialBackground():void {       //FIXME: CALLBACK
