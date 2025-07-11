@@ -14,7 +14,7 @@ export default class Main_Container extends Container {
 	public static readonly WIDTH:number = 1280;
 	public static readonly HEIGHT:number = 800;
 	public static wallArray:Sprite[] = [];
-	private _exitKey:Exit_Key;
+	public static keyArray:Sprite[] = [];
 	private BUTTON_LEFT:boolean = false;
 	private BUTTON_RIGHT:boolean = false;
 	private BUTTON_UP:boolean = false;
@@ -26,6 +26,9 @@ export default class Main_Container extends Container {
 	private _player:Player;
 	private _exitGate:Exit_Gate;
 	private _wall:Wall
+	private _key:Exit_Key
+	private _keyIterator:number = 0;
+
 	private _scoreMenu:Score_Menu;
 	public static jsonLoader:XMLHttpRequest;
 
@@ -105,10 +108,8 @@ export default class Main_Container extends Container {
 	}
 	
 	private initialExitKey():void {
-		this._exitKey = new Exit_Key;
-		this._exitKey.x = 45;
-		this._exitKey.y = 485;
-		this.addChild(this._exitKey);
+		this._key = new Exit_Key();
+		this.addChild(this._key);
 	}
 
 	private initialExitGate():void {
@@ -210,16 +211,17 @@ export default class Main_Container extends Container {
 	}
 
 	private keyCollision():void {
-		let keyIterator:number = 0;
-		if (
-			Collision_Checking.horizontal(this._player, this._exitKey) &&
-			Collision_Checking.vertical(this._player, this._exitKey)
-		) {
-			keyIterator+=1;
-			console.log(keyIterator);
-			this.removeChild(this._exitKey);
-			this.removeChild(this._scoreMenu);
-			this.initialScoreMenu(keyIterator as unknown as string);
+		for (let iterator:number = 0; iterator < Main_Container.keyArray.length; iterator ++) {
+			let key: Sprite = Main_Container.keyArray[iterator];
+			if (
+				Collision_Checking.horizontal(this._player, key) &&
+				Collision_Checking.vertical(this._player, key)
+			) {
+				this._keyIterator++;
+				this._key.removeChild(key);
+				this.removeChild(this._scoreMenu);
+				this.initialScoreMenu(this._keyIterator as unknown as string);
+			}
 		}
 	}
 
