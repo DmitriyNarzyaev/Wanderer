@@ -37,6 +37,8 @@ export default class Main_Container extends Container {
 		this._startMenuContainer = new Container;
 		this.addChild(this._startMenuContainer);
 		this.pictureLoader();
+
+		console.log(Math.floor(40/1.65) + " -- 24");
 	}
 
 	private pictureLoader():void {
@@ -205,9 +207,21 @@ export default class Main_Container extends Container {
 			this.rightMove(true);
 		}
 
-		let gateRotationIterator:number = 0;
-		gateRotationIterator += 1;
-		this._exitGate.vortexContainer.rotation -= gateRotationIterator/20;
+		if (this._keyIterator == 3) {
+			let gateRotationIterator:number = 0;
+			gateRotationIterator += 1;
+			this._exitGate.vortexContainer.rotation -= gateRotationIterator/20;
+			if (this._exitGate.exitGateVortex.alpha < 1) {
+				this._exitGate.exitGateVortex.alpha += .008;
+			} 
+			else {
+				this._exitGate.exitGateVortex.alpha == 1;
+			}
+			if (this._exitGate.vortexContainer.width < 60) {
+				this._exitGate.vortexContainer.width += .5;
+				this._exitGate.vortexContainer.height += .5;
+			}
+		}
 	}
 
 	private keyCollision():void {
