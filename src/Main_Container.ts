@@ -28,7 +28,6 @@ export default class Main_Container extends Container {
 	private _wall:Wall
 	private _key:Exit_Key
 	private _keyIterator:number = 0;
-
 	private _scoreMenu:Score_Menu;
 	public static jsonLoader:XMLHttpRequest;
 
@@ -37,8 +36,6 @@ export default class Main_Container extends Container {
 		this._startMenuContainer = new Container;
 		this.addChild(this._startMenuContainer);
 		this.pictureLoader();
-
-		console.log(Math.floor(40/1.65) + " -- 24");
 	}
 
 	private pictureLoader():void {
@@ -51,29 +48,33 @@ export default class Main_Container extends Container {
 			.add("vortex", "vortex.png")
 			.add("car", "gamer.png")
 			picLoader.load((loader, resources)=> {
-			this.jsonLiader();
+			this.jsonLoader();
 		});
 	}
 
-	private jsonLiader():void {
+	private jsonLoader():void {
 		Main_Container.jsonLoader = new XMLHttpRequest();
 		Main_Container.jsonLoader.responseType = "json";
 		Main_Container.jsonLoader.open("GET", "level1.json", true);
 		Main_Container.jsonLoader.onreadystatechange = () => {
-		this.initialStartMenu();
+			if (!this._startMenu) {
+			this.initialStartMenu("START");
+			}
+
 		};
 		Main_Container.jsonLoader.send();
 	}
 
-	private initialStartMenu():void {
+	private initialStartMenu(buttonName:string):void {
 		this._startMenu = new Start_Menu();
 		this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
 		this._startMenuContainer.addChild(this._startMenu);
 
-		this._button = new Button("START", () => {this.startProject();});
+		this._button = new Button(buttonName, () => {this.startProject();});
 		this._button.x = Main_Container.WIDTH/2 - this._button.width/2;
         this._button.y = Main_Container.HEIGHT/3.5;
 		this._startMenuContainer.addChild(this._button);
+		console.log ("START")
 	}
 
 	private startProject():void {
@@ -94,6 +95,23 @@ export default class Main_Container extends Container {
 			this.keyUpHandler(e);
 		},);
 		Global.PIXI_APP.ticker.add(this.ticker, this);
+	}
+
+	private removeLevel():void {
+		this.removeChild(this._background);
+		this.removeChild(this._wall);
+		Main_Container.wallArray = [];
+		this.removeChild(this._key);
+		Main_Container.keyArray = [];
+		this._keyIterator = 0;
+		this.removeChild(this._scoreMenu);
+		this.removeChild(this._exitGate);
+		this.removeChild(this._player);
+		Global.PIXI_APP.ticker.remove(this.ticker, this);
+
+		this._startMenuContainer = new Container;
+		this.addChild(this._startMenuContainer);
+		this.initialStartMenu("RESTART");
 	}
 
 	private initialBackground():void {
@@ -221,7 +239,18 @@ export default class Main_Container extends Container {
 				this._exitGate.vortexContainer.width += .5;
 				this._exitGate.vortexContainer.height += .5;
 			}
+
+			if (
+			Collision_Checking.horizontal(this._player, this._exitGate) &&
+			Collision_Checking.vertical(this._player, this._exitGate) &&
+			this._exitGate.vortexContainer.width >= 60
+			){
+			this.removeLevel();
+			}
+
 		}
+
+		
 	}
 
 	private keyCollision():void {
