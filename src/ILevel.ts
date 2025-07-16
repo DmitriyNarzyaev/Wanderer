@@ -1,3 +1,3 @@
 interface ILevel {
-	walls:IBlock[];
+	items:IBlock[];
 }

@@ -60,6 +60,8 @@ export default class Main_Container extends Container {
 			Main_Container.jsonLoader.open("GET", "level1.json", true);
 		} else if (buttonName == "LEVEL 2") {
 			Main_Container.jsonLoader.open("GET", "level2.json", true);
+		} else if (buttonName == "LEVEL 3") {
+			Main_Container.jsonLoader.open("GET", "level1.json", true);
 		}
 		Main_Container.jsonLoader.onreadystatechange = () => {
 			this._startMenu = new Start_Menu();
@@ -127,16 +129,14 @@ export default class Main_Container extends Container {
 	}
 	
 	private initialExitKey():void {
-		this._key = new Exit_Key();
+		this._key = new Exit_Key(Main_Container.jsonLoader.response);
 		this.addChild(this._key);
 	}
 
 	private initialExitGate():void {
 		this._exitGate = new Exit_Gate;
-		// this._exitGate.x = 1100;
-		// this._exitGate.y = 570;
-		 this._exitGate.x = 200;
-		 this._exitGate.y = 500;
+		this._exitGate.x = 1100;
+		this._exitGate.y = 570;
 		this.addChild(this._exitGate);
 	}
 
