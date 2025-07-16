@@ -30,6 +30,7 @@ export default class Main_Container extends Container {
 	private _keyIterator:number = 0;
 	private _scoreMenu:Score_Menu;
 	public static jsonLoader:XMLHttpRequest;
+	private _levelIterator:number = 1;
 
 	constructor() {
 		super();
@@ -48,33 +49,29 @@ export default class Main_Container extends Container {
 			.add("vortex", "vortex.png")
 			.add("car", "gamer.png")
 			picLoader.load((loader, resources)=> {
-			this.jsonLoader();
+			this.initialStartMenu("START");
 		});
 	}
 
-	private jsonLoader():void {
+	private initialStartMenu(buttonName:string):void {
 		Main_Container.jsonLoader = new XMLHttpRequest();
 		Main_Container.jsonLoader.responseType = "json";
-		Main_Container.jsonLoader.open("GET", "level1.json", true);
+		if(buttonName == "START"){
+			Main_Container.jsonLoader.open("GET", "level1.json", true);
+		} else if (buttonName == "LEVEL 2") {
+			Main_Container.jsonLoader.open("GET", "level2.json", true);
+		}
 		Main_Container.jsonLoader.onreadystatechange = () => {
-			if (!this._startMenu) {
-			this.initialStartMenu("START");
-			}
+			this._startMenu = new Start_Menu();
+			this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
+			this._startMenuContainer.addChild(this._startMenu);
 
+			this._button = new Button(buttonName, () => {this.startProject();});
+			this._button.x = Main_Container.WIDTH/2 - this._button.width/2;
+        	this._button.y = Main_Container.HEIGHT/3.5;
+			this._startMenuContainer.addChild(this._button);
 		};
 		Main_Container.jsonLoader.send();
-	}
-
-	private initialStartMenu(buttonName:string):void {
-		this._startMenu = new Start_Menu();
-		this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
-		this._startMenuContainer.addChild(this._startMenu);
-
-		this._button = new Button(buttonName, () => {this.startProject();});
-		this._button.x = Main_Container.WIDTH/2 - this._button.width/2;
-        this._button.y = Main_Container.HEIGHT/3.5;
-		this._startMenuContainer.addChild(this._button);
-		console.log ("START")
 	}
 
 	private startProject():void {
@@ -98,6 +95,8 @@ export default class Main_Container extends Container {
 	}
 
 	private removeLevel():void {
+		this._levelIterator ++;
+		console.log("LEVEL " + this._levelIterator);
 		this.removeChild(this._background);
 		this.removeChild(this._wall);
 		Main_Container.wallArray = [];
@@ -111,7 +110,7 @@ export default class Main_Container extends Container {
 
 		this._startMenuContainer = new Container;
 		this.addChild(this._startMenuContainer);
-		this.initialStartMenu("RESTART");
+		this.initialStartMenu("LEVEL " + this._levelIterator);
 	}
 
 	private initialBackground():void {
@@ -134,8 +133,10 @@ export default class Main_Container extends Container {
 
 	private initialExitGate():void {
 		this._exitGate = new Exit_Gate;
-		this._exitGate.x = 1100;
-		this._exitGate.y = 570;
+		// this._exitGate.x = 1100;
+		// this._exitGate.y = 570;
+		 this._exitGate.x = 200;
+		 this._exitGate.y = 500;
 		this.addChild(this._exitGate);
 	}
 

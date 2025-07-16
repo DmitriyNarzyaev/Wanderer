@@ -9,9 +9,13 @@ export default class Exit_Key extends Container {
 
     constructor() {
         super();
-        this.initialKey(45, 485);
-        this.initialKey(365, 45);
-        this.initialKey(1005, 485);
+        // this.initialKey(45, 485);
+        // this.initialKey(365, 45);
+        // this.initialKey(1005, 485);
+
+        this.initialKey(40, 500);
+        this.initialKey(80, 500);
+        this.initialKey(120, 500);
     }
 
     private initialKey(keyX:number, keyY:number):void {
