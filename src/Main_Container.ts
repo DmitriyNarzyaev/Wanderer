@@ -86,8 +86,8 @@ export default class Main_Container extends Container {
 		this.initialBackground();
 		this.initialWalls();
 		this.initialExitKey();
-		this.initialPlayer(this._level.items[0].x, this._level.items[0].y);
 		this.initialExitGate(this._level.items[1].x, this._level.items[1].y);
+		this.initialPlayer(this._level.items[0].x, this._level.items[0].y);
 		this.initialScoreMenu("0");
 
 		window.addEventListener("keydown",
