@@ -31,6 +31,7 @@ export default class Main_Container extends Container {
 	private _scoreMenu:Score_Menu;
 	public static jsonLoader:XMLHttpRequest;
 	private _levelIterator:number = 1;
+	private _level:ILevel;
 
 	constructor() {
 		super();
@@ -56,13 +57,16 @@ export default class Main_Container extends Container {
 	private initialStartMenu(buttonName:string):void {
 		Main_Container.jsonLoader = new XMLHttpRequest();
 		Main_Container.jsonLoader.responseType = "json";
+
 		if(buttonName == "START"){
 			Main_Container.jsonLoader.open("GET", "level1.json", true);
 		} else if (buttonName == "LEVEL 2") {
 			Main_Container.jsonLoader.open("GET", "level2.json", true);
 		} else if (buttonName == "LEVEL 3") {
 			Main_Container.jsonLoader.open("GET", "level1.json", true);
+			this._levelIterator = 1;
 		}
+
 		Main_Container.jsonLoader.onreadystatechange = () => {
 			this._startMenu = new Start_Menu();
 			this._startMenu.x = Main_Container.WIDTH/2 - this._startMenu.width/2
@@ -77,12 +81,13 @@ export default class Main_Container extends Container {
 	}
 
 	private startProject():void {
+		this._level = Main_Container.jsonLoader.response;
 		this.removeChild(this._startMenuContainer);
 		this.initialBackground();
 		this.initialWalls();
 		this.initialExitKey();
-		this.initialExitGate();
-		this.initialPlayer();
+		this.initialPlayer(this._level.items[0].x, this._level.items[0].y);
+		this.initialExitGate(this._level.items[1].x, this._level.items[1].y);
 		this.initialScoreMenu("0");
 
 		window.addEventListener("keydown",
@@ -133,19 +138,17 @@ export default class Main_Container extends Container {
 		this.addChild(this._key);
 	}
 
-	private initialExitGate():void {
+	private initialExitGate(gateX:number, gateY:number):void {
 		this._exitGate = new Exit_Gate;
-		this._exitGate.x = 1100;
-		this._exitGate.y = 570;
+		this._exitGate.x = gateX;
+		this._exitGate.y = gateY;
 		this.addChild(this._exitGate);
 	}
 
-	private initialPlayer():void {
-		let startPositionX:number = 120;
-		let startPositionY:number = 700;
+	private initialPlayer(playerX:number, playerY:number):void {
 		this._player = new Player;
-		this._player.x = startPositionX;
-		this._player.y = startPositionY;
+		this._player.x = playerX;
+		this._player.y = playerY;
 		this.addChild(this._player);
 	}
 
@@ -242,16 +245,13 @@ export default class Main_Container extends Container {
 			}
 
 			if (
-			Collision_Checking.horizontal(this._player, this._exitGate) &&
-			Collision_Checking.vertical(this._player, this._exitGate) &&
-			this._exitGate.vortexContainer.width >= 60
+				Collision_Checking.horizontal(this._player, this._exitGate) &&
+				Collision_Checking.vertical(this._player, this._exitGate) &&
+				this._exitGate.vortexContainer.width >= 60
 			){
-			this.removeLevel();
+				this.removeLevel();
 			}
-
 		}
-
-		
 	}
 
 	private keyCollision():void {

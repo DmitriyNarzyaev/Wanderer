@@ -1,6 +1,38 @@
 {
 	"items":[
 		{
+			"type":"player",
+			"x":120,
+			"y":700,
+			"width":40,
+			"height":40
+		}, {
+			"type":"gate",
+			"x":1100,
+			"y":570,
+			"width":60,
+			"height":60
+		}, {
+			"type":"key",
+			"x":45,
+			"y":485,
+			"width":15,
+			"height":30
+		}, {
+			"type":"key",
+			"x":365,
+			"y":45,
+			"width":15,
+			"height":30
+		}, {
+			"type":"key",
+			"x":1005,
+			"y":485,
+			"width":15,
+			"height":30
+		},
+
+		{
 			"type":"wall",
 			"x":0,
 			"y":0,
@@ -1218,27 +1250,6 @@
 			"y":18,
 			"width":40,
 			"height":40
-		},
-		
-		
-		{
-			"type":"key",
-			"x":45,
-			"y":485,
-			"width":15,
-			"height":30
-		}, {
-			"type":"key",
-			"x":365,
-			"y":45,
-			"width":15,
-			"height":30
-		}, {
-			"type":"key",
-			"x":1005,
-			"y":485,
-			"width":15,
-			"height":30
 		}
 	]
 }
