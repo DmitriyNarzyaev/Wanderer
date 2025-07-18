@@ -62,7 +62,7 @@ export default class Main_Container extends Container {
 			Main_Container.jsonLoader.open("GET", "level1.json", true);
 		} else if (buttonName == "LEVEL 2") {
 			Main_Container.jsonLoader.open("GET", "level2.json", true);
-		} else if (buttonName == "LEVEL 3") {
+		} else if (buttonName == "RESTART") {
 			Main_Container.jsonLoader.open("GET", "level1.json", true);
 			this._levelIterator = 1;
 		}
@@ -117,7 +117,12 @@ export default class Main_Container extends Container {
 
 		this._startMenuContainer = new Container;
 		this.addChild(this._startMenuContainer);
-		this.initialStartMenu("LEVEL " + this._levelIterator);
+		if (this._levelIterator >= 3) {
+			this.initialStartMenu("RESTART");
+			this._levelIterator = 1;
+		} else {
+			this.initialStartMenu("LEVEL " + this._levelIterator);
+		}
 	}
 
 	private initialBackground():void {
