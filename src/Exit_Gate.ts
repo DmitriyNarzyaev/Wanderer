@@ -22,8 +22,6 @@ export default class Exit_Gate extends Container {
         this.addChild(this.vortexContainer);
 
         this.exitGateVortex = Sprite.from("vortex");
-        this.exitGateVortex.width = 60;
-        this.exitGateVortex.height = 60;
         this.exitGateVortex.x -= this.exitGateVortex.width/2;
         this.exitGateVortex.y -= this.exitGateVortex.height/2;
         this.exitGateVortex.alpha = 0;

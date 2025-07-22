@@ -15,8 +15,8 @@ export default class Wall extends Container {
                 let blockX:number = this._level.items[iterator].width * this._level.items[iterator].x;
                 let blockY:number = this._level.items[iterator].height * this._level.items[iterator].y;
                 this._wall = Sprite.from("wall");
-                
                 this.addChild(this._wall);
+                
                 this._wall.x = blockX;
                 this._wall.y = blockY;
                 Main_Container.wallArray.push(this._wall);

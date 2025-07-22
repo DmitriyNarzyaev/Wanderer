@@ -244,15 +244,15 @@ export default class Main_Container extends Container {
 			else {
 				this._exitGate.exitGateVortex.alpha == 1;
 			}
-			if (this._exitGate.vortexContainer.width < 60) {
+			if (this._exitGate.vortexContainer.width < 50) {
 				this._exitGate.vortexContainer.width += .5;
 				this._exitGate.vortexContainer.height += .5;
 			}
 
 			if (
-				Collision_Checking.horizontal(this._player, this._exitGate) &&
-				Collision_Checking.vertical(this._player, this._exitGate) &&
-				this._exitGate.vortexContainer.width >= 60
+				Collision_Checking.horizontal(this._player, this._exitGate, "gate") &&
+				Collision_Checking.vertical(this._player, this._exitGate, "gate") &&
+				this._exitGate.vortexContainer.width >= 50
 			){
 				this.removeLevel();
 			}
@@ -263,8 +263,8 @@ export default class Main_Container extends Container {
 		for (let iterator:number = 0; iterator < Main_Container.keyArray.length; iterator ++) {
 			let key: Sprite = Main_Container.keyArray[iterator];
 			if (
-				Collision_Checking.horizontal(this._player, key) &&
-				Collision_Checking.vertical(this._player, key)
+				Collision_Checking.horizontal(this._player, key, "key") &&
+				Collision_Checking.vertical(this._player, key, "key")
 			) {
 				this._keyIterator++;
 				this._key.removeChild(key);
@@ -291,7 +291,7 @@ export default class Main_Container extends Container {
 			if (
 				this._player.x >= limitX &&
 				this._player.x - speed < limitX &&
-				Collision_Checking.vertical(this._player, wall)
+				Collision_Checking.vertical(this._player, wall, "wall")
 			) {
 				this._player.x = limitX;
 				canMove = false;
@@ -319,7 +319,7 @@ export default class Main_Container extends Container {
 			if (
 				this._player.y >= limitY &&
 				this._player.y - speed < limitY &&
-				Collision_Checking.horizontal(this._player, wall)
+				Collision_Checking.horizontal(this._player, wall, "wall")
 			) {
 				this._player.y = limitY;
 				canMove = false;
@@ -347,7 +347,7 @@ export default class Main_Container extends Container {
 			if (
 				this._player.x <= limitX &&
 				this._player.x + speed > limitX &&
-				Collision_Checking.vertical(this._player, wall)
+				Collision_Checking.vertical(this._player, wall, "wall")
 			) {
 				this._player.x = limitX;
 				canMove = false;
@@ -375,7 +375,7 @@ export default class Main_Container extends Container {
 			if (
 				this._player.y <= limitY &&
 				this._player.y + speed > limitY &&
-				Collision_Checking.horizontal(this._player, wall)
+				Collision_Checking.horizontal(this._player, wall, "wall")
 			) {
 				this._player.y = limitY;
 				canMove = false;
