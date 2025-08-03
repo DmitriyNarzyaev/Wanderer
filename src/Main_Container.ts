@@ -49,6 +49,8 @@ export default class Main_Container extends Container {
 			.add("exitgate", "exit.png")
 			.add("vortex", "vortex.png")
 			.add("car", "gamer.png")
+
+			.add("spritemap", "spritemap.png")
 			picLoader.load((loader, resources)=> {
 			this.initialStartMenu("START");
 		});

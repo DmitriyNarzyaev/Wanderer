@@ -13,7 +13,14 @@ export default class Exit_Gate extends Container {
     }
 
     private initialGate():void {
-        this._exitGateSprite = Sprite.from("exitgate");
+        // this._exitGateSprite = Sprite.from("exitgate");
+        // this.addChild(this._exitGateSprite);
+
+
+        let texture = PIXI.utils.TextureCache["spritemap"];
+        let borders:PIXI.Rectangle = new PIXI.Rectangle(0, 0, 60, 60);
+        texture.frame = borders;
+        this._exitGateSprite = new PIXI.Sprite(texture);
         this.addChild(this._exitGateSprite);
     }
 
