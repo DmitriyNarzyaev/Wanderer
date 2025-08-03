@@ -146,14 +146,14 @@ export default class Main_Container extends Container {
 	}
 
 	private initialExitGate(gateX:number, gateY:number):void {
-		this._exitGate = new Exit_Gate;
+		this._exitGate = new Exit_Gate(Main_Container.jsonLoader.response);
 		this._exitGate.x = gateX;
 		this._exitGate.y = gateY;
 		this.addChild(this._exitGate);
 	}
 
 	private initialPlayer(playerX:number, playerY:number):void {
-		this._player = new Player;
+		this._player = new Player(Main_Container.jsonLoader.response);
 		this._player.x = playerX;
 		this._player.y = playerY;
 		this.addChild(this._player);

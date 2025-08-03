@@ -5,22 +5,20 @@ export default class Exit_Gate extends Container {
     public vortexContainer:PIXI.Container;
     public exitGateVortex:PIXI.Sprite;
     private _exitGateSprite:PIXI.Sprite;
+    private _level:ILevel;
     
-    constructor() {
+    constructor(level:ILevel) {
         super();
+        this._level = level;
         this.initialGate();
         this.initialVortex();
     }
 
     private initialGate():void {
-        // this._exitGateSprite = Sprite.from("exitgate");
-        // this.addChild(this._exitGateSprite);
-
-
-        let texture = PIXI.utils.TextureCache["spritemap"];
-        let borders:PIXI.Rectangle = new PIXI.Rectangle(0, 0, 60, 60);
-        texture.frame = borders;
-        this._exitGateSprite = new PIXI.Sprite(texture);
+        let gateTexture:any = new PIXI.Texture(PIXI.utils.TextureCache["spritemap"]);
+        let borders:PIXI.Rectangle = new PIXI.Rectangle(0, 0, this._level.items[1].width, this._level.items[1].height);
+        gateTexture.frame = borders;
+        this._exitGateSprite = new PIXI.Sprite(gateTexture);
         this.addChild(this._exitGateSprite);
     }
 
