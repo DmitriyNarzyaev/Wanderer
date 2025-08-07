@@ -14,8 +14,7 @@ export default class Player extends Container {
 
     private initialPlayer():void {
         let playerTexture:any = new PIXI.Texture(PIXI.utils.TextureCache["spritemap"]);
-        let borders:PIXI.Rectangle = new PIXI.Rectangle(60, 0, this._level.items[0].width, this._level.items[0].height);
-        playerTexture.frame = borders;
+        playerTexture.frame = new PIXI.Rectangle(60, 0, this._level.items[0].width, this._level.items[0].height);
         this.playerCar = new PIXI.Sprite(playerTexture);
         this.playerCar.x -= this.playerCar.width/2;
         this.playerCar.y -= this.playerCar.height/2;

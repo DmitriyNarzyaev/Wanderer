@@ -16,8 +16,7 @@ export default class Exit_Gate extends Container {
 
     private initialGate():void {
         let gateTexture:any = new PIXI.Texture(PIXI.utils.TextureCache["spritemap"]);
-        let borders:PIXI.Rectangle = new PIXI.Rectangle(0, 0, this._level.items[1].width, this._level.items[1].height);
-        gateTexture.frame = borders;
+        gateTexture.frame = new PIXI.Rectangle(0, 0, this._level.items[1].width, this._level.items[1].height);
         this._exitGateSprite = new PIXI.Sprite(gateTexture);
         this.addChild(this._exitGateSprite);
     }

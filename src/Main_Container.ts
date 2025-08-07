@@ -44,14 +44,9 @@ export default class Main_Container extends Container {
 		const picLoader:PIXI.Loader = new PIXI.Loader();
 		picLoader
 			.add("title", "title.jpg")
-			.add("wall", "wall.png")
-			.add("exitkey", "key.png")
-			.add("exitgate", "exit.png")
 			.add("vortex", "vortex.png")
-			.add("car", "gamer.png")
-
-			.add("spritemap", "spritemap.png")
-			picLoader.load((loader, resources)=> {
+			.add("spritemap", "spritemap.png");
+			picLoader.load(()=> {
 			this.initialStartMenu("START");
 		});
 	}
@@ -243,9 +238,9 @@ export default class Main_Container extends Container {
 			if (this._exitGate.exitGateVortex.alpha < 1) {
 				this._exitGate.exitGateVortex.alpha += .008;
 			} 
-			else {
-				this._exitGate.exitGateVortex.alpha == 1;
-			}
+			// else {
+			// 	this._exitGate.exitGateVortex.alpha == 1;
+			// }
 			if (this._exitGate.vortexContainer.width < 50) {
 				this._exitGate.vortexContainer.width += .5;
 				this._exitGate.vortexContainer.height += .5;
@@ -298,7 +293,7 @@ export default class Main_Container extends Container {
 				this._player.x = limitX;
 				canMove = false;
 			}
-		};
+		}
 		if (canMove) {
 			this._player.x -= speed;
 		}
@@ -326,7 +321,7 @@ export default class Main_Container extends Container {
 				this._player.y = limitY;
 				canMove = false;
 			}
-		};
+		}
 		if (canMove) {
 			this._player.y -= speed;
 		}
@@ -354,7 +349,7 @@ export default class Main_Container extends Container {
 				this._player.x = limitX;
 				canMove = false;
 			}
-		};
+		}
 		if (canMove) {
 			this._player.x += speed;
 		}
@@ -382,7 +377,7 @@ export default class Main_Container extends Container {
 				this._player.y = limitY;
 				canMove = false;
 			}
-		};
+		}
 		if (canMove) {
 			this._player.y += speed;
 		}

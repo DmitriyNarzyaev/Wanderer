@@ -2,7 +2,7 @@ import Container = PIXI.Container;
 import Main_Container from "./Main_Container";
 
 export default class Wall extends Container {
-    private _wall: PIXI.Sprite;
+    private readonly _wall: PIXI.Sprite;
     private _level:ILevel;
 
     constructor(level:ILevel) {
@@ -12,8 +12,7 @@ export default class Wall extends Container {
         for (let iterator:number = 0; iterator < this._level.items.length; iterator++) {
             if (this._level.items[iterator].type == "wall") {
                 let wallTexture:any = new PIXI.Texture(PIXI.utils.TextureCache["spritemap"]);
-                let borders:PIXI.Rectangle = new PIXI.Rectangle(100, 0, this._level.items[iterator].width, this._level.items[iterator].height);
-                wallTexture.frame = borders;
+                wallTexture.frame = new PIXI.Rectangle(100, 0, this._level.items[iterator].width, this._level.items[iterator].height);
                 this._wall = new PIXI.Sprite(wallTexture);
                 let blockX:number = this._level.items[iterator].width * this._level.items[iterator].x;
                 let blockY:number = this._level.items[iterator].height * this._level.items[iterator].y;
