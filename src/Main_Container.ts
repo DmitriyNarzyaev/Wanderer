@@ -32,13 +32,17 @@ export default class Main_Container extends Container {
 	public static jsonLoader:XMLHttpRequest;
 	private _levelIterator:number = 1;
 	private _level:ILevel;
+	private _loadingWindowContainer:PIXI.Container;
 
 	constructor() {
 		super();
 		this._startMenuContainer = new Container;
 		this.addChild(this._startMenuContainer);
+		this.loadingWindow();
 		this.pictureLoader();
 	}
+
+	private _loadingInterval:any;
 
 	private pictureLoader():void {
 		const picLoader:PIXI.Loader = new PIXI.Loader();
@@ -46,9 +50,43 @@ export default class Main_Container extends Container {
 			.add("title", "title.jpg")
 			.add("vortex", "vortex.png")
 			.add("spritemap", "spritemap.png");
-			picLoader.load(()=> {
+
+		picLoader.load(()=> {
+			clearInterval(this._loadingInterval);
+			this.removeChild(this._loadingWindowContainer);
+			this._loadingWindowContainer = null;
 			this.initialStartMenu("START");
 		});
+	}
+
+	private loadingWindow():void {
+		this._loadingWindowContainer = new PIXI.Container;
+		this.addChild(this._loadingWindowContainer);
+
+		const textStyle = new PIXI.TextStyle ({
+			fontFamily: 'Arial',
+			fontSize: Main_Container.HEIGHT/30,
+			fontWeight: 'bold',
+			fill: ['#999999'],
+		});
+
+		const loadingText:PIXI.Text = new PIXI.Text ("", textStyle);
+		loadingText.x = (Main_Container.WIDTH - loadingText.width)/2;
+		loadingText.y = (Main_Container.HEIGHT - loadingText.height)/2;
+		this._loadingWindowContainer.addChild(loadingText);
+
+		this._loadingInterval = setInterval(() => {
+			console.log("fffffffff")
+			if (loadingText.text == "Loading.") {
+				loadingText.text = "Loading.."
+			} else if (loadingText.text == "Loading..") {
+				loadingText.text = "Loading..."
+			} else if (loadingText.text == "Loading...") {
+				loadingText.text = "Loading."
+			} else {
+				loadingText.text = "Loading."
+			}
+		}, 500);
 	}
 
 	private initialStartMenu(buttonName:string):void {
